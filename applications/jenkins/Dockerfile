@@ -17,6 +17,10 @@ touch /etc/apt/sources.list.d/kubernetes.list;\
 echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list;\
 apt-get update && apt-get install -y kubectl
 
+USER root
+RUN apt-get update && apt-get install -y maven
+# drop back to the regular jenkins user - good practice
+USER jenkins
 # Grant jenkins user group access to /var/run/docker.sock
 RUN addgroup --gid 1001 dsock
 RUN gpasswd -a jenkins dsock 
